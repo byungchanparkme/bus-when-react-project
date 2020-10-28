@@ -9,6 +9,7 @@ import { getCurrentPosition } from "./helper"
 
 function App() {
   const [currentPos, setCurrentPos] = useState({})
+  const [nearbyBusStopInfo, setNearbyBusStopInfo] = useState([])
 
   useEffect(() => {
     getCurrentPosition()
@@ -24,7 +25,7 @@ function App() {
             <Home />
           </Route>
           <Route path="/nearbyBusStop">
-            <NearbyBusStop currentPos={currentPos} />
+            <NearbyBusStop currentPos={currentPos} nearbyBusStopInfo={nearbyBusStopInfo} setNearbyBusStopInfo={setNearbyBusStopInfo} />
           </Route>
         </Switch>
       </div>

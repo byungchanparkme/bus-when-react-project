@@ -1,3 +1,6 @@
+import axios from "axios"
+import { ApiDefault } from "./constant"
+
 // 현재 위치의 위도, 경도 값이 담긴 객체 데이터를 제공해준다.
 export const getCurrentPosition = () => {
   if (navigator.geolocation) {
@@ -18,5 +21,18 @@ export const getCurrentPosition = () => {
     navigator.geolocation.getCurrentPosition(success, error, options)
   } else {
     alert("이 브라우저에서는 Geolocation이 지원되지 않습니다.")
+  }
+}
+
+export const getNearbyBusStop = async (currentLat, currentLng) => {
+  var url = "BusSttnInfoInqireService/getCrdntPrxmtSttnList" /*URL*/
+  var queryParams = "?" + encodeURIComponent("ServiceKey") + "=" + ApiDefault.key /*Service Key*/
+  queryParams += "&" + encodeURIComponent("gpsLati") + "=" + encodeURIComponent(currentLat) /**/
+  queryParams += "&" + encodeURIComponent("gpsLong") + "=" + encodeURIComponent(currentLng) /**/
+  try {
+    const response = await axios.get(url + queryParams)
+    return response.data
+  } catch (error) {
+    console.log(error)
   }
 }
