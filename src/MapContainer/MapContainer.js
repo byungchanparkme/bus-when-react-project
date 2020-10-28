@@ -11,7 +11,7 @@ const MapContainer = ({ currentPos, setNearbyBusStopInfo, nearbyBusStopInfo }) =
       })
       .catch((err) => console.log(err))
   }, [currentPos, setNearbyBusStopInfo])
-  return <MapContent />
+  return <MapContent currentPos={currentPos} nearbyBusStopInfo={nearbyBusStopInfo} />
 }
 
 export default MapContainer
