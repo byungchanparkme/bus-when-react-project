@@ -24,6 +24,22 @@ const loadMap = (currentPos, nearbyBusStopInfo) => {
   })
   currentPosMarker.setMap(map)
 
+  // 현재 위치 텍스트를 띄워주는 인포 윈도우 생성
+  const currentPosInfoWindow = new kakao.maps.InfoWindow({
+    position: new kakao.maps.LatLng(currentPos.lat, currentPos.lng),
+    content: "현재 위치",
+  })
+  // 마커에 마우스 커서를 올리면
+  kakao.maps.event.addListener(currentPosMarker, "mouseover", function () {
+    // 인포 윈도우 표시
+    currentPosInfoWindow.open(map, currentPosMarker)
+  })
+  // 마우스 커서가 마커에서 벗어나면
+  kakao.maps.event.addListener(currentPosMarker, "mouseout", function () {
+    // 인포 윈도우 사라진다.
+    currentPosInfoWindow.close()
+  })
+
   // 주변 버스 정류장을 표시해주는 마커 생성
   nearbyBusStopInfo.forEach((el) => {
     // 마커 생성
@@ -38,6 +54,31 @@ const loadMap = (currentPos, nearbyBusStopInfo) => {
 
     // 마커를 지도에 표시
     marker.setMap(map)
+
+    // 인포 윈도우 생성
+    // 버스 정류장 이름 : el.nodenm
+    // 현재 위치로부터 떨어진 거리 : el.distance
+    const iwContent = `
+      <div style="padding:5px; text-align:center;">
+        <strong style="display:block;">
+          ${el.nodenm}
+        </strong>
+        <span style="color:red;">
+          ${el.distance}
+        </span>
+      </div>`
+    let iwRemovable = true
+
+    const infoWindow = new kakao.maps.InfoWindow({
+      content: iwContent,
+      removable: iwRemovable,
+    })
+
+    // 마커에 클릭이벤트 등록
+    kakao.maps.event.addListener(marker, "click", function () {
+      // 마커 위에 인포윈도우 표시
+      infoWindow.open(map, marker)
+    })
   })
 }
 
