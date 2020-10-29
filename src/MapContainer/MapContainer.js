@@ -3,7 +3,7 @@ import MapContent from "../MapContent/MapContent"
 import { getNearbyBusStop } from "../helper"
 import { getDistance } from "geolib"
 
-const MapContainer = ({ currentPos, setNearbyBusStopInfo, nearbyBusStopInfo }) => {
+const MapContainer = ({ currentPos, setNearbyBusStopInfo, nearbyBusStopInfo, setIsOpen, setBusStopInfo }) => {
   useEffect(() => {
     getNearbyBusStop(Number(currentPos.lat), Number(currentPos.lng))
       .then((response) => response.response.body.items.item)
@@ -23,7 +23,7 @@ const MapContainer = ({ currentPos, setNearbyBusStopInfo, nearbyBusStopInfo }) =
       })
       .catch((err) => console.log(err))
   }, [currentPos, setNearbyBusStopInfo])
-  return <MapContent currentPos={currentPos} nearbyBusStopInfo={nearbyBusStopInfo} />
+  return <MapContent currentPos={currentPos} nearbyBusStopInfo={nearbyBusStopInfo} setIsOpen={setIsOpen} setBusStopInfo={setBusStopInfo} />
 }
 
 export default MapContainer

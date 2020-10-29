@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 
-const loadMap = (currentPos, nearbyBusStopInfo) => {
+const loadMap = (currentPos, nearbyBusStopInfo, setIsOpen, setBusStopInfo) => {
   const { kakao } = window
   // container에는 컴포넌트가 마운트될 때 만들어 두었던 myMap이라는 아이디를 가진 DOM의 레퍼런스가 담겨 있음.
   const mapContainer = document.getElementById("myMap"),
@@ -78,20 +78,26 @@ const loadMap = (currentPos, nearbyBusStopInfo) => {
     kakao.maps.event.addListener(marker, "click", function () {
       // 마커 위에 인포윈도우 표시
       infoWindow.open(map, marker)
+
+      // 모달 창 띄우기
+      setIsOpen(true)
+
+      // 버스 정류장 정보 저장
+      setBusStopInfo(el)
     })
   })
 }
 
-function MapContent({ currentPos, nearbyBusStopInfo }) {
+function MapContent({ currentPos, nearbyBusStopInfo, setIsOpen, setBusStopInfo }) {
   // 컴포넌트가 마운트된 직후에 외부에서 지도에 관한 데이터를 받아온다.
   useEffect(() => {
     const { kakao } = window
     // kakao.maps.laod 함수 호출
-    kakao.maps.load(() => loadMap(currentPos, nearbyBusStopInfo))
+    kakao.maps.load(() => loadMap(currentPos, nearbyBusStopInfo, setIsOpen, setBusStopInfo))
   }, [currentPos, nearbyBusStopInfo])
   return (
     <>
-      <div id="myMap" style={{ width: "500px", height: "1024px", margin: "0 auto" }}></div>
+      <div id="myMap" style={{ width: "500px", height: "900px", margin: "0 auto", position: "relatvie" }}></div>
     </>
   )
 }
