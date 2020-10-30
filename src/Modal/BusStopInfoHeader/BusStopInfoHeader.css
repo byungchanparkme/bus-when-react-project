@@ -1,0 +1,13 @@
+.busStop__header {
+  width: 100%;
+  padding: 10px 0 10px 20px;
+  border-bottom: 1px solid rgba(51, 51, 51, 0.3);
+}
+.busStop__name {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.busStop__num {
+  color: rgba(51, 51, 51, 0.3);
+}

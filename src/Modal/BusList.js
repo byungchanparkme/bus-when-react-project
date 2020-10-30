@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react"
 import { getBusInfoOnCurrentBusStop } from "../helper"
-import BusCard from "./BusCard"
+import BusCard from "./BusCard/BusCard"
 
 function BusList({ busStopInfo }) {
   const [busInfo, setBusInfo] = useState([])
+
   useEffect(() => {
-    const response = getBusInfoOnCurrentBusStop(busStopInfo)
+    let response = getBusInfoOnCurrentBusStop(busStopInfo)
     response.then((response) => response.response.body.items.item).then((response) => setBusInfo(response))
   }, [busStopInfo])
   return (

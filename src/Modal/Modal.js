@@ -30,7 +30,7 @@ const Dimmer = styled.div`
     opacity: 1;
 
     & .modal-content {
-      transform: translateY(80px);
+      transform: translateY(310px);
       opacity: 1;
       transition-delay: 150ms;
       transition-duration: 350ms;
@@ -40,7 +40,6 @@ const Dimmer = styled.div`
 
 const Content = styled.div`
   position: relative;
-  padding: 20px;
   box-sizing: border-box;
   width: 500px;
   height: auto;

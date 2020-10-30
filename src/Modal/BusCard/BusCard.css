@@ -1,0 +1,16 @@
+.busCard {
+  display: flex;
+  padding: 10px;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(51, 51, 51, 0.2);
+}
+.busCard__left .teal {
+  background: #367588;
+  color: #fff;
+  padding: 2px;
+  font-size: 12px;
+  margin-right: 6px;
+}
+.busCard__right {
+  color: red;
+}

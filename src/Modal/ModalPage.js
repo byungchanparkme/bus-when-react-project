@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import BusList from "./BusList"
-import BusStopInfoHeader from "./BusStopInfoHeader"
+import BusStopInfoHeader from "./BusStopInfoHeader/BusStopInfoHeader"
 import Modal from "./Modal"
 
 function ModalPage({ isOpen, setIsOpen, busStopInfo }) {
