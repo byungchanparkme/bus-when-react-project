@@ -36,3 +36,16 @@ export const getNearbyBusStop = async (currentLat, currentLng) => {
     console.log(error)
   }
 }
+
+export const getBusInfoOnCurrentBusStop = async (busStopInfo) => {
+  var url = "ArvlInfoInqireService/getSttnAcctoArvlPrearngeInfoList" /*URL*/
+  var queryParams = "?" + encodeURIComponent("ServiceKey") + "=" + ApiDefault.key /*Service Key*/
+  queryParams += "&" + encodeURIComponent("cityCode") + "=" + encodeURIComponent(35020) /**/
+  queryParams += "&" + encodeURIComponent("nodeId") + "=" + encodeURIComponent(busStopInfo.nodeid) /**/
+  try {
+    const response = await axios.get(url + queryParams)
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
+}

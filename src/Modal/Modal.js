@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 
 import Portal from "../Portal/Portal"
@@ -30,7 +30,7 @@ const Dimmer = styled.div`
     opacity: 1;
 
     & .modal-content {
-      transform: translateY(210px);
+      transform: translateY(80px);
       opacity: 1;
       transition-delay: 150ms;
       transition-duration: 350ms;
@@ -43,41 +43,55 @@ const Content = styled.div`
   padding: 20px;
   box-sizing: border-box;
   width: 500px;
-  height: 300px;
+  height: auto;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   background-color: white;
   border-radius: 2px;
 `
 
 export default function Modal({ open, onClose, children }) {
-  const [active, setActive] = React.useState(false)
-  const dimmer = React.useRef(null)
+  const [active, setActive] = useState(false)
+  const dimmer = useRef(null)
 
-  React.useEffect(() => {
+  useEffect(() => {
     const { current } = dimmer
 
     const transitionEnd = () => setActive(open)
+    const keyHandler = (e) => open && active && [27].indexOf(e.which) >= 0 && onClose()
+    const clickHandler = (e) => open && active && e.target === current && onClose()
 
     if (current) {
       current.addEventListener("transitionend", transitionEnd)
+      current.addEventListener("click", clickHandler)
+      window.addEventListener("keyup", keyHandler)
     }
 
+    // 모달창이 열리면
     if (open) {
       setTimeout(() => {
         document.activeElement.blur()
         setActive(open)
       }, 10)
+
+      // 모달창이 열렸을 때 스크린 리더로 모달창을 제외한 컨텐츠를 가상 커서로 선택할 수 없다.
+      document.getElementById("root").setAttribute("aria-hidden", "true")
+      // 모달창이 닫히면
+    } else {
+      document.getElementById("root").setAttribute("aria-hidden", "false")
     }
 
     document.body.style.cssText = `position: fixed; top: -${window.scrollY}px`
+
     return () => {
       if (current) {
         current.removeEventListener("transitionend", transitionEnd)
+        current.removeEventListener("click", clickHandler)
       }
 
       const scrollY = document.body.style.top
       document.body.style.cssText = `position: ""; top: "";`
       window.scrollTo(0, parseInt(scrollY || "0") * -1)
+      window.removeEventListener("keyup", keyHandler)
     }
   }, [open, onClose])
 
@@ -86,7 +100,9 @@ export default function Modal({ open, onClose, children }) {
       {(open || active) && (
         <Portal className="modal-portal" parent={document.getElementById("modal-root")}>
           <Dimmer ref={dimmer} className={active && open && "active"} onClick={onClose}>
-            <Content className="modal-content">{children}</Content>
+            <Content className="modal-content" role="modal" aria-labelledby="busInfoModal">
+              {children}
+            </Content>
           </Dimmer>
         </Portal>
       )}

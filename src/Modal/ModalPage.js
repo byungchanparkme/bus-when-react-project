@@ -1,4 +1,6 @@
 import React, { useState } from "react"
+import BusList from "./BusList"
+import BusStopInfoHeader from "./BusStopInfoHeader"
 import Modal from "./Modal"
 
 function ModalPage({ isOpen, setIsOpen, busStopInfo }) {
@@ -10,17 +12,8 @@ function ModalPage({ isOpen, setIsOpen, busStopInfo }) {
         }}
         open={isOpen}
       >
-        <p>버스 정류장 이름 : {busStopInfo.nodenm}</p>
-        <p>버스 정류장 번호 : {busStopInfo.nodeno}</p>
-        <p style={{ textAlign: "center" }}>
-          <button
-            onClick={() => {
-              setIsOpen(false)
-            }}
-          >
-            Close
-          </button>
-        </p>
+        <BusStopInfoHeader busStopInfo={busStopInfo} />
+        <BusList busStopInfo={busStopInfo} />
       </Modal>
     </div>
   )
