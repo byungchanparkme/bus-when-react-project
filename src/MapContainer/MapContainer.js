@@ -1,10 +1,13 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import MapContent from "../MapContent/MapContent"
 import { getNearbyBusStop } from "../helper"
 import { getDistance } from "geolib"
+import Loading from "../Loading/Loading"
 
 const MapContainer = ({ currentPos, setNearbyBusStopInfo, nearbyBusStopInfo, setIsOpen, setBusStopInfo }) => {
+  const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
+    setIsLoading(true)
     getNearbyBusStop(Number(currentPos.lat), Number(currentPos.lng))
       .then((response) => response.response.body.items.item)
       .then((response) => {
@@ -20,9 +23,12 @@ const MapContainer = ({ currentPos, setNearbyBusStopInfo, nearbyBusStopInfo, set
           }
         })
         setNearbyBusStopInfo(response)
+        setIsLoading(false)
       })
       .catch((err) => console.log(err))
   }, [currentPos, setNearbyBusStopInfo])
+
+  if (isLoading) return <Loading />
   return <MapContent currentPos={currentPos} nearbyBusStopInfo={nearbyBusStopInfo} setIsOpen={setIsOpen} setBusStopInfo={setBusStopInfo} />
 }
 

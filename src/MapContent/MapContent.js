@@ -14,8 +14,8 @@ const loadMap = (currentPos, nearbyBusStopInfo, setIsOpen, setBusStopInfo) => {
   const map = new kakao.maps.Map(mapContainer, mapOptions)
 
   // 마커들의 아이콘 생성
-  const currentPosIcon = new kakao.maps.MarkerImage("https://i1.daumcdn.net/dmaps/apis/n_local_blit_04.png", new kakao.maps.Size(31, 35))
-  const busStopIcon = new kakao.maps.MarkerImage("https://icon-icons.com/icons2/567/PNG/32/bus_icon-icons.com_54412.png", new kakao.maps.Size(25, 25))
+  const currentPosIcon = new kakao.maps.MarkerImage("https://img.icons8.com/ultraviolet/80/000000/marker.png", new kakao.maps.Size(31, 35))
+  const busStopIcon = new kakao.maps.MarkerImage("https://img.icons8.com/color/96/000000/marker.png", new kakao.maps.Size(31, 35))
 
   // 현재 위치를 표시해주는 마커 생성
   const currentPosMarker = new kakao.maps.Marker({
@@ -74,11 +74,20 @@ const loadMap = (currentPos, nearbyBusStopInfo, setIsOpen, setBusStopInfo) => {
       removable: iwRemovable,
     })
 
-    // 마커에 클릭이벤트 등록
-    kakao.maps.event.addListener(marker, "click", function () {
+    // 마커에 마우스 커서를 올리면,
+    kakao.maps.event.addListener(marker, "mouseover", function () {
       // 마커 위에 인포윈도우 표시
       infoWindow.open(map, marker)
+    })
 
+    // 마우스 커서가 마커에서 벗어나면,
+    kakao.maps.event.addListener(marker, "mouseout", function () {
+      // 인포윈도우 사라진다.
+      infoWindow.close()
+    })
+
+    // 마커에 클릭이벤트 등록
+    kakao.maps.event.addListener(marker, "click", function () {
       // 모달 창 띄우기
       setIsOpen(true)
 
